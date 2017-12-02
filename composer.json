@@ -6,8 +6,8 @@
             "name": "Bjoern Ebbrecht",
             "email": "b.ebbrecht@rl-3.de"
         }
-    ],,
-    "keywords": ["secret","santa", "christmas", "wichteln"],
+    ],
+    "keywords": ["secret", "santa", "christmas", "wichteln"],
     "homepage": "https://github.com/bjoernffm/SecretSanta",
     "type": "library",
     "license": "MIT",
