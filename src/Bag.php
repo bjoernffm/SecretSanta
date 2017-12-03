@@ -13,10 +13,10 @@ class Bag
         $this->members = [];
     }
 
-    public function addMember($name)
+    public function addMember(MemberInterface $member)
     {
-        $hash = hash('sha256', $name, false);
-        $this->members[$hash] = $name;
+        $hash = hash('sha256', $member->getName(), false);
+        $this->members[$hash] = $member;
     }
 
     public function getMembers()
@@ -27,16 +27,29 @@ class Bag
     public function popMember(array $excludeMembers = [])
     {
         $members = [];
-        foreach($this->members as $member) {
-            if (in_array($member, $excludeMembers) == false) {
-                $members[] = $member;
+        foreach($this->members as $hash => $member) {
+            $add = true;
+
+            foreach($excludeMembers as $excludeMember) {
+                if ($member->getName() == $excludeMember->getName()) {
+                    $add = false;
+                    break;
+                }
+            }
+
+            if ($add == true) {
+                $members[$hash] = $member;
             }
         }
 
         if (count($members) <= 0) {
-            throw new Exception('Bag is empty');
+            return null;
         }
 
-        return $members[mt_rand(0, count($members)-1)];
+        $index = mt_rand(0, count($members)-1);
+        $hash = array_keys($members)[$index];
+        unset($this->members[$hash]);
+
+        return $members[$hash];
     }
 }

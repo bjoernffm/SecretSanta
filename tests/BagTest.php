@@ -1,6 +1,7 @@
 <?php
 
 use \bjoernffm\SecretSanta\Bag;
+use \bjoernffm\SecretSanta\Member;
 
 /**
  * @codeCoverageIgnore
@@ -19,40 +20,55 @@ class BagTest extends PHPUnit_Framework_TestCase
 
     public function testAddMember2()
     {
+        $member1 = new Member();
+        $member1->setName('Bjoern');
+        $member2 = new Member();
+        $member2->setName('Georgi');
+
         $bag = new Bag();
-        $bag->addMember('Bjoern');
-        $bag->addMember('Georgi');
+        $bag->addMember($member1);
+        $bag->addMember($member2);
 
         $this->assertEquals(
             $bag->getMembers(),
             [
-                'Bjoern',
-                'Georgi'
+                $member1,
+                $member2
             ]
         );
     }
 
     public function testPopMember1()
     {
+        $member1 = new Member();
+        $member1->setName('Bjoern');
+        $member2 = new Member();
+        $member2->setName('Georgi');
+
         $bag = new Bag();
-        $bag->addMember('Bjoern');
-        $bag->addMember('Georgi');
+        $bag->addMember($member1);
+        $bag->addMember($member2);
 
         $this->assertEquals(
-            $bag->popMember(['Georgi']),
-            'Bjoern'
+            $bag->popMember([$member2]),
+            $member1
         );
     }
 
-    /**
-     * @expectedException Exception
-     */
     public function testPopMember2()
     {
-        $bag = new Bag();
-        $bag->addMember('Bjoern');
-        $bag->addMember('Georgi');
+        $member1 = new Member();
+        $member1->setName('Bjoern');
+        $member2 = new Member();
+        $member2->setName('Georgi');
 
-        $bag->popMember(['Georgi', 'Bjoern']);
+        $bag = new Bag();
+        $bag->addMember($member1);
+        $bag->addMember($member2);
+
+        $this->assertEquals(
+            $bag->popMember([$member1, $member2]),
+            null
+        );
     }
 }
